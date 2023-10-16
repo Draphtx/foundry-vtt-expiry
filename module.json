@@ -1,0 +1,53 @@
+{
+    "title": "Foundry VTT Expiry",
+    "name": "expiry",
+    "id": "expiry",
+    "description": "Food and drink expiration dates, linked to SimpleCalendar",
+    "authors": [
+      {
+        "name": "draphtx",
+        "email": "draphtx@gmail.com",
+        "url": "https://www.buymeacoffee.com/draphtx"
+      }
+    ],
+    "version": "1.0.1",
+    "minimumCoreVersion" : "10.291",
+    "compatibleCoreVersion" : 10,
+    "compatibility": {
+        "minimum": "10",
+        "verified": "10"
+    },
+    "relationships": {
+      "requires": [
+        {
+          "id": "colorsettings",
+          "type": "module",
+          "compatibility": {
+            "verified": "2.9.0"
+          }
+        }
+      ]
+    },
+    "scripts": [
+        "scripts/expiry.js",
+        "scripts/config.js"
+    ],
+    "languages": [
+      {
+        "lang": "en",
+        "name": "English",
+        "path": "languages/en.json"
+      }
+    ],
+    "media": [
+      {
+          "type": "cover",
+          "link": "https://raw.githubusercontent.com/Draphtx/foundry-vtt-expiry/continuous/artwork/module/expiry-cover.png"
+      }
+    ],
+    "url": "#{URL}#",
+    "manifest": "#{MANIFEST}#",
+    "download": "#{DOWNLOAD}#",
+    "license": "LICENSE",
+    "readme": "README.md"
+  }
