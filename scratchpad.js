@@ -1,4 +1,29 @@
-export class expiryObject {
+Hooks.on("createItem", function(document, _, userId) {
+    if(!document.flags?.expiry) {
+        console.log("item not configured for expiry")
+        return false;
+    } else {
+        console.log("item configured for expiry")
+        const newExpiryObject = new expiryObject(document, _, userId)
+        newExpiryObject.createExpiryObject();
+    };
+    Hooks.off("createItem");
+});
+
+Hooks.on("simple-calendar-date-time-change", function(data) {
+    const expiryActors = getExpiryActors()
+    for(const expiryActor of expiryActors) {
+        const affectedItems = getRelevantInventory(expiryActor);
+        for(const affectedItem of affectedItems) {
+            console.log("updating expiry item")
+            const newExpiryObject = new expiryObject(affectedItem, data);
+            newExpiryObject.updateExpiryObject();
+        };
+    };
+    Hooks.off("simple-calendar-date-time-change");
+});
+
+class expiryObject {
     constructor(objectDocument, updateData=null, userId=null) {
         this.objectDocument = objectDocument;
         this.updateData = updateData;
@@ -20,6 +45,18 @@ export class expiryObject {
         });
         console.log("created expiry item")
         Hooks.call('createdExpiry', [this.objectDocument, this.userId])
+    };
+
+    checkExpiry() {
+        if(!this.objectDocument.flags?.expiry?.enabled == true) {
+            return false;
+        };
+
+        if(this.currentTime >= this.objectDocument.flags.expiry.instance.createTime) {
+            this.updateExpiry();
+        } else {
+            return false;
+        };
     };
     
     updateExpiryObject() {
@@ -66,6 +103,7 @@ function getRelevantInventory(actorDocument) {
         return false;
       }
   
+      const currentTime = SimpleCalendar.api.timestamp(); // Get current in-game time
       const instance = expiryFlags.instance;
       const decayStages = expiryFlags.decayStages;
   
@@ -83,20 +121,21 @@ function getRelevantInventory(actorDocument) {
       // and if the item is not in its final decay state OR if the entire lifespan
       // is greater than or equal to the current time
       return (
-        instance.createTime <= this.currentTime &&
+        instance.createTime <= currentTime &&
         (!isInFinalDecayState(instance.activeStage, decayStages) ||
-          lifespanEnd >= this.currentTime)
+          lifespanEnd >= currentTime)
       );
     });
+  
     return affectedItems;
-};
+  }
   
   function isInFinalDecayState(activeStage, decayStages) {
     const stages = Object.keys(decayStages);
     return activeStage === stages.length - 1;
-};
+  }
 
-export function getExpiryActors() {
+function getExpiryActors() {
     // Gets a list of actors who hold expiry-configured items
     return game.actors.filter(actor => actor.items.filter(item => item.flags.expiry));
 };
