@@ -38,6 +38,7 @@ class expiryObject {
                 expiry: {
                     instance: {
                         createTime: this.currentTime,
+                        createName: this.objectDocument.name,
                         activeStage: 0,
                     }
                 }
@@ -76,7 +77,6 @@ class expiryObject {
 
         // Update the active stage
         if(!expiryData.instance.activeStage !== stageIndex){
-            // _decayExpiryObject();
             this.objectDocument.update({
                 flags: {
                     expiry: {
@@ -86,12 +86,35 @@ class expiryObject {
                     }
                 }
             });
+            this._decayExpiryObject(decayStages[stageIndex]);
         };
     };
 
-    _decayExpiryObject() {
+    _decayExpiryObject(decayStage) {
         // apply decay effects, emit a hook, what have you
         console.log(`decaying item ${this.objectDocument.id}`)
+        decayAction = decayStage.action
+        if(decayAction.revise){
+            this.objectDocument.update({
+                img: decayAction.revise.img || this.objectDocument.img,
+                name: `${decayAction.revise.prefix}${this.objectDocument.flags.expiry.instance.createName}${decayAction.replace.suffix}` || this.objectDocument.name
+            });
+        } else if(decayAction.replace){
+            const parentActor = objectDocument.parent;
+            const replacementItem = game.items.get(decayAction.replace.itemId);
+            if(await parentActor.createEmbeddedDocuments('Item', [replacementItem.toObject()])){
+                this.objectDocument.delete();
+            } else {
+                console.error(`unable to create replacement object for Expiry ${this.objectDocument.id}, leaving parent object in-place`);
+            }
+        } else if(decayStage.action.remove){
+            this.objectDocument.delete();
+        };
+
+        if(decayStage.message){
+            ui.notifications.warn(decayState.message);
+        };
+
     };
 };
 
@@ -139,3 +162,31 @@ function getExpiryActors() {
     // Gets a list of actors who hold expiry-configured items
     return game.actors.filter(actor => actor.items.filter(item => item.flags.expiry));
 };
+
+let parentSettings = {
+    flags: {
+        expiry: {
+            decayInterval: 86400,
+            decayStages: {
+                fresh: {
+                    actions: {
+                        revise: {
+                            rename: {  // What name changes should be made e.g. `Fresh <item name>` or `<item name> (Middling)`
+                                suffix: null,
+                                prefix: null
+                            },
+                            reimage: {  // What new item picture should be used
+                                newImage: texturePath
+                            },
+                        },
+                        replace: {  // What new item should replace the existing one (invalidates rename/reimage/replace)
+                            newItem: itemId
+                        },
+                        remove: true,  // Remove the item from inventory at this stage? Invalidates all else
+                    },
+                    message: "Tagwin's fruit rollup rots away"
+                }
+            }
+        }
+    }
+}
