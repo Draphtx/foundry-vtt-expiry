@@ -96,25 +96,6 @@ buttons: {
       openChildDialog(2);
     },
   },
-  apply: {
-    icon: "<i class='fas fa-check'></i>",
-    label: "Apply",
-    callback: async () => {
-      // Handle the Apply button logic here
-      console.log("Apply button clicked");
-      console.log(settings); // Access the collected settings from child dialogs
-      parentDialog.close(); // Close the parent dialog
-    },
-  },
-  cancel: {
-    icon: "<i class='fas fa-times'></i>",
-    label: "Cancel",
-    callback: async () => {
-      // Handle the Cancel button logic here
-      console.log("Cancel button clicked");
-      parentDialog.close(); // Close the parent dialog
-    },
-  },
   reset: {
     icon: "<i class='fas fa-undo'></i>",
     label: "Reset",
@@ -132,6 +113,25 @@ buttons: {
       console.log("Help button clicked");
       stayOpen = true; // Set the flag to keep the parent dialog open
       openHelpDialog(); // Close the parent dialog
+    },
+  },
+  apply: {
+    icon: "<i class='fas fa-check'></i>",
+    label: "Apply",
+    callback: async () => {
+      // Handle the Apply button logic here
+      console.log("Apply button clicked");
+      console.log(settings); // Access the collected settings from child dialogs
+      parentDialog.close(); // Close the parent dialog
+    },
+  },
+  cancel: {
+    icon: "<i class='fas fa-times'></i>",
+    label: "Cancel",
+    callback: async () => {
+      // Handle the Cancel button logic here
+      console.log("Cancel button clicked");
+      parentDialog.close(); // Close the parent dialog
     },
   },
 },
@@ -152,7 +152,7 @@ const dialog = new Dialog({
   content: `
     <form id="expiry-options-form">
       <div class="form-group">
-        <label>Main Option:</label>
+        <label>Action:</label>
         <div class="main-options">
 
           <fieldset class="option-group">
@@ -194,7 +194,7 @@ const dialog = new Dialog({
       </div>
 
       <div class="form-group">
-      <label>Notification Option:</label>
+      <label>Notification (optional):</label>
       <div class="notification-options">
           <fieldset class="option-group">
             <legend>UI Message</legend>
