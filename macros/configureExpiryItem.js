@@ -231,8 +231,8 @@ function openHelpDialog() {
         <p>An Expiry lifecycle may mix and match these actions. For instance:</p>
         <ul>
             <li><b>Stage 1:</b> Rename item from 'Banana' to 'Brown Banana' (<i>revise</i>)</li>
-            <li><b>Stage 2:</b> Replace item 'Brown Banana' with item 'Rotten Banana,' which you have configured with a status effect to take place when eaten (<i>replace</i>)</li>
-            <li><b>Stage 3</b>: Remove the item entirely as it rots to nothing (<i>remove</i>)</li>
+            <li><b>Stage 1 (alt):</b> Replace item 'Brown Banana' with item 'Rotten Banana,' which you have configured with a status effect to take place when eaten (<i>replace</i>)</li>
+            <li><b>Stage 2</b>: Remove the item entirely as it rots to nothing (<i>remove</i>)</li>
         </ul>
         <p>Any stages that are left unconfigured will have no effect on the item; e.g. if the final configured stage changes the name to 'Rotten Banana' and no further action is taken, the item will persist in that state going forward.</p>
         </fieldset>
