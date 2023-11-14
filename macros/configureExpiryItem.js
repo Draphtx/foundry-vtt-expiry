@@ -43,15 +43,42 @@ content: `
       <select id="selectedItems" name="selectedItems" multiple style='width:58%; margin:4px 1%; display:inline-block;'>` + itemDropdown + `</select>
   </div>
   
-  </fieldset>
-  </form>
-  
-  <style>
-    #savingThrowSelector .dialog-buttons {
-        flex-direction: column;
-    }
-  </style>
+  <!-- Decay Time Configuration -->
+  <div class="form-group">
+      <label for="decayAmount" style='display:inline-block;'>Decay Time:</label>
+      <select id="decayAmount" name="decayAmount" style='width:20%; margin:4px 1%; display:inline-block;'>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="2">3</option>
+          <option value="2">4</option>
+          <option value="2">5</option>
+          <option value="2">6</option>
+          <option value="2">7</option>
+          <option value="2">8</option>
+          <option value="2">9</option>
+          <option value="2">10</option>
+          <option value="2">11</option>
+          <option value="2">12</option>
+          <!-- Add more options up to 12 as needed -->
+      </select>
+      <select id="decayUnit" name="decayUnit" style='width:30%; margin:4px 1%; display:inline-block;'>
+          <option value="Minutes">Minutes</option>
+          <option value="Hours">Hours</option>
+          <option value="Days">Days</option>
+          <option value="Years">Years</option>
+      </select>
+  </div>
+
+</fieldset>
+</form>
+
+<style>
+  #savingThrowSelector .dialog-buttons {
+      flex-direction: column;
+  }
+</style>
 `,
+
 buttons: {
   stage1: {
     icon: "<i class='fas fa-cog'></i>",
