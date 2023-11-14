@@ -190,17 +190,32 @@ const dialog = new Dialog({
               <!-- Remove settings go here -->
             </div>
           </fieldset>
+        </div>
+      </div>
 
+      <div class="form-group">
+      <label>Notification Option:</label>
+      <div class="notification-options">
           <fieldset class="option-group">
             <legend>UI Message</legend>
             <div class="settings">
               <label>Message:</label>
-              <input type="text" name="message" class="text-input">
+                <input type="text" name="message" class="text-input">
+              <label>Send to:</label>
+                <br>
+                <input type="checkbox" name="console"> Console
+              </label>
+              <label>
+                <input type="checkbox" name="chat"> Chat
+              </label>
+              <label>
+                <input type="checkbox" name="ui"> UI
+              </label>
             </div>
           </fieldset>
-
         </div>
       </div>
+
     </form>
   `,
   buttons: {
@@ -229,6 +244,18 @@ const dialog = new Dialog({
             action: remove
           };
         };
+
+        // Get notification settings
+        const decayMessage = html.find('[name="message"]')
+        const consoleChecked = html.find('[name="console"]').prop('checked');
+        const chatChecked = html.find('[name="chat"]').prop('checked');
+        const uiChecked = html.find('[name="ui"]').prop('checked');
+
+        // Include the checkbox values in the stageSettings
+        stageSettings.message = decayMessage;
+        stageSettings.console = consoleChecked;
+        stageSettings.chat = chatChecked;
+        stageSettings.ui = uiChecked;
 
         // Set the settings.stages[stageInt] properties
         console.log("Setting properties")
@@ -294,7 +321,7 @@ function openHelpDialog() {
         
         <fieldset>
         <legend>Unlimited Variation</legend>
-        <p>Individual item stages are limited to a maximum of three, but using the <b>Replace action</b> you may replace the original Expiry-configured item with another Expiry-configured item that has its own distinct configuration. By 'looping' items this way you may achieve infinite variation.</p>
+        <p>Individual item stages are limited to a maximum of three, but using the <b>Replace action</b> you may replace the original Expiry-configured item with another Expiry-configured item that has its own distinct configuration. By 'looping' items this way you can get as detailed as you desire.</p>
         </fieldset>
         
         <!-- Add more sections as needed -->
