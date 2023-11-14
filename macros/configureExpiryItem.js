@@ -7,14 +7,51 @@ let settings = {
 };
 let stayOpen = false; // Custom flag to control parent dialog closing
 
+let itemDropdown = "";
+const loadoutsTypes = "gear"
+
+for(const loadoutsType of loadoutsTypes.split(',')){
+    itemDropdown +="<option disabled>" + loadoutsType.toUpperCase() + "</option>"
+    var itemArray = game.items.filter(item => item.type == loadoutsType).sort((a, b) => a.name.localeCompare(b.name));
+    for (let i = 0; i < itemArray.length; i++) {
+        var isConfigured
+        if(itemArray[i].flags.loadouts){
+            if(itemArray[i].flags.loadouts.configured == true){
+                isConfigured = "&#x25C9;"
+            } else {
+                isConfigured = "&#x25CC;"
+            }
+        } else {
+            isConfigured = "&#x25CC;"
+        }
+        itemDropdown += "<option value='" + itemArray[i].id + "'>" + itemArray[i].name + " " + isConfigured + "</option>";
+    }
+}
+
 // Create the parent dialog
 const parentDialog = new Dialog({
 title: "Expiry Item Configuration",
-content: `<style>
-  #savingThrowSelector .dialog-buttons {
-      flex-direction: column;
-  }
- </style>
+content: `
+<form class="form-horizontal">
+<fieldset>
+
+  <!-- Form Name -->
+  <legend>Item Configuration</legend>
+  <!-- Item Dropdown -->
+  
+  <div class="form-group">
+      <label for="selectedItems" style='display:inline-block;'>Select Item</label>
+      <select id="selectedItems" name="selectedItems" multiple style='width:58%; margin:4px 1%; display:inline-block;'>` + itemDropdown + `</select>
+  </div>
+  
+  </fieldset>
+  </form>
+  
+  <style>
+    #savingThrowSelector .dialog-buttons {
+        flex-direction: column;
+    }
+  </style>
 `,
 buttons: {
   stage1: {
@@ -142,19 +179,21 @@ const dialog = new Dialog({
 
         if (mainOption === "revise") {
           stageSettings = {
+            action: revise,
             prefix: html.find('[name="prefix"]').val(),
             suffix: html.find('[name="suffix"]').val(),
             img: html.find('[name="img"]').val(),
           };
         } else if (mainOption === "replace") {
           stageSettings = {
+            action: replace,
             replacementItem: html.find('[name="replacementItem"]').val(),
           };
         } else if (mainOption === "remove") {
           stageSettings = {
-            remove: true,
+            action: remove
           };
-        }
+        };
 
         // Set the settings.stages[stageInt] properties
         console.log("Setting properties")
