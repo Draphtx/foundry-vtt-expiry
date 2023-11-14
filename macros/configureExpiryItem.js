@@ -154,7 +154,7 @@ const dialog = new Dialog({
       <div class="form-group">
         <label>Main Option:</label>
         <div class="main-options">
-        
+
           <fieldset class="option-group">
             <legend>Revise</legend>
             <label>
@@ -193,9 +193,6 @@ const dialog = new Dialog({
 
           <fieldset class="option-group">
             <legend>UI Message</legend>
-            <label>
-              <input type="radio" name="main-option" value="revise"> Revise
-            </label>
             <div class="settings">
               <label>Message:</label>
               <input type="text" name="message" class="text-input">
