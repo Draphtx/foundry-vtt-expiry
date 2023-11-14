@@ -57,27 +57,26 @@ export class expiryObject {
         // apply decay effects, emit a hook, what have you
         console.log(`decaying item ${this.objectDocument.id}`)
         const decayAction = decayStage.action
-        if(decayAction.revise){
+        if(decayAction === "revise"){
             this.objectDocument.update({
-                img: decayAction.revise.img || this.objectDocument.img,
-                name: `${decayAction.revise.prefix}${this.objectDocument.flags.expiry.instance.createName}${decayAction.replace.suffix}` || this.objectDocument.name
+                img: decayStage.img || this.objectDocument.img,
+                name: `${decayStage.prefix}${this.objectDocument.flags.expiry.instance.createName}${decayStage.suffix}` || this.objectDocument.name
             });
-        } else if(decayAction.replace){
+        } else if(decayAction === "replace"){
             const parentActor = objectDocument.parent;
-            const replacementItem = game.items.get(decayAction.replace.itemId);
+            const replacementItem = game.items.get(decayStage.itemId);
             if(await parentActor.createEmbeddedDocuments('Item', [replacementItem.toObject()])){
                 this.objectDocument.delete();
             } else {
                 console.error(`unable to create replacement object for Expiry ${this.objectDocument.id}, leaving parent object in-place`);
             }
-        } else if(decayStage.action.remove){
+        } else if(decayAction === "remove"){
             this.objectDocument.delete();
         };
 
         if(decayStage.message){
-            ui.notifications.warn(decayState.message);
+            ui.notifications.info(decayStage.message);
         };
-
     };
 };
 
