@@ -315,7 +315,7 @@ function openHelpDialog() {
         <legend>Reversing Time</legend>
         <p>In its default configuration, Expiry can handle time shifts in reverse as well; that is, in a situation where the GM moves the game clock to an earlier time, decay stages will be reversed.</p>
         <p>This is due to the fact that Expiry lifespans are calculated to a distinct game time, not a relative one. If you add an item to a character's inventory with a 12 hour expiration, then reset the clock to 100 years earlier, it will take 100 years and 12 hours for the item to expire.</p>
-        <p>This behavior may be disabled in the module's configuration.</p>
+        <p>Time reversal behavior may be disabled in the module's configuration.</p>
         <p><i>(Note: items that have a <b>remove</b> stage which has already taken place will not reappear)</i></p>
         </fieldset>
         
