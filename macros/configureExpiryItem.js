@@ -229,37 +229,39 @@ const dialog = new Dialog({
 
         if (mainOption === "revise") {
           stageSettings = {
-            action: revise,
+            action: 'revise',
             prefix: html.find('[name="prefix"]').val(),
             suffix: html.find('[name="suffix"]').val(),
-            img: html.find('[name="img"]').val(),
+            img: html.find('[name="img"]').val()
           };
         } else if (mainOption === "replace") {
           stageSettings = {
-            action: replace,
-            replacementItem: html.find('[name="replacementItem"]').val(),
+            action: 'replace',
+            replacementItem: html.find('[name="replacementItem"]').val()
           };
         } else if (mainOption === "remove") {
           stageSettings = {
-            action: remove
+            action: 'remove'
           };
         };
 
         // Get notification settings
-        const decayMessage = html.find('[name="message"]')
+        const decayMessage = html.find('[name="message"]').val();
         const consoleChecked = html.find('[name="console"]').prop('checked');
         const chatChecked = html.find('[name="chat"]').prop('checked');
         const uiChecked = html.find('[name="ui"]').prop('checked');
 
         // Include the checkbox values in the stageSettings
-        stageSettings.message = decayMessage;
-        stageSettings.console = consoleChecked;
-        stageSettings.chat = chatChecked;
-        stageSettings.ui = uiChecked;
+        stageSettings.notifications = {
+          message: decayMessage,
+          to_console: consoleChecked,
+          to_chat: chatChecked,
+          to_ui: uiChecked
+        }
 
         // Set the settings.stages[stageInt] properties
         console.log("Setting properties")
-        settings.stages[stageInt] = stageSettings;
+        expirySettings.stages[stageInt] = stageSettings;
 
         // Do something with the selected options
         console.log("Main Option:", mainOption);
